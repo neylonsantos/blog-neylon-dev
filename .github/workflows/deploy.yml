@@ -1,31 +1,107 @@
-name: Build & Deploy
+name: Jekyll Build e Deploy
 
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
-  build-deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout do código
+        uses: actions/checkout@v4
 
-      - uses: ruby/setup-ruby@v1
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: '4.0.5'
           bundler-cache: true
 
-      - name: Build Jekyll
-        run: bundle exec jekyll build
-        env:
-          JEKYLL_ENV: production
+      - name: Verificar dependências
+        run: |
+          if [ ! -f "Gemfile" ]; then
+            echo "Gemfile não encontrado!"
+            exit 1
+          fi
 
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Build Jekyll
+        run: |
+          JEKYLL_ENV=production bundle exec jekyll build
+          if [ ! -d "_site" ] || [ -z "$(ls -A _site)" ]; then
+            echo "Build falhou ou _site está vazio!"
+            exit 1
+          fi
+          echo "Build concluído com sucesso"
+
+      - name: Compactar site
+        run: tar -czf site.tar.gz -C _site .
+
+      - name: Transferir para o servidor
+        uses: appleboy/scp-action@v0.1.7
         with:
-          server:     ${{ secrets.FTP_SERVER }}
-          username:   ${{ secrets.FTP_USER }}
-          password:   ${{ secrets.FTP_PASSWORD }}
-          local-dir:  ./_site/
-          server-dir: /httpdocs/
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "site.tar.gz"
+          target: "/tmp"
+
+      - name: Deploy no servidor
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            set -e
+
+            TARGET_DIR="/var/www/vhosts/neylon.dev/blog.neylon.dev/httpdocs"
+            BACKUP_BASE_DIR="/var/www/vhosts/neylon.dev/blog.neylon.dev/site_backups"
+            BACKUP_DIR="${BACKUP_BASE_DIR}/backup_$(date +%Y%m%d_%H%M%S)"
+
+            echo "Iniciando deploy em ${TARGET_DIR}..."
+
+            if [ ! -f "/tmp/site.tar.gz" ]; then
+              echo "site.tar.gz não encontrado em /tmp!"
+              exit 1
+            fi
+
+            mkdir -p ${TARGET_DIR}
+            mkdir -p ${BACKUP_BASE_DIR}
+
+            if [ "$(ls -A ${TARGET_DIR} 2>/dev/null | head -1)" ]; then
+              echo "Criando backup em ${BACKUP_DIR}..."
+              cp -r ${TARGET_DIR} ${BACKUP_DIR}
+            fi
+
+            echo "Limpando diretório atual..."
+            rm -rf ${TARGET_DIR}/*
+            rm -rf ${TARGET_DIR}/.[!.]* 2>/dev/null || true
+
+            echo "Extraindo novos arquivos..."
+            tar -xzf /tmp/site.tar.gz -C ${TARGET_DIR}
+
+            if [ ! "$(ls -A ${TARGET_DIR})" ]; then
+              echo "Falha na extração! Restaurando backup..."
+              if [ -d "${BACKUP_DIR}" ]; then
+                cp -r ${BACKUP_DIR}/* ${TARGET_DIR}/
+                cp -r ${BACKUP_DIR}/.[!.]* ${TARGET_DIR}/ 2>/dev/null || true
+              fi
+              exit 1
+            fi
+
+            echo "Ajustando permissões..."
+            find ${TARGET_DIR} -type f -exec chmod 644 {} \;
+            find ${TARGET_DIR} -type d -exec chmod 755 {} \;
+
+            echo "Removendo arquivos temporários..."
+            rm -f /tmp/site.tar.gz
+
+            echo "Limpando backups antigos (mantém 5)..."
+            ls -dt ${BACKUP_BASE_DIR}/backup_* 2>/dev/null | tail -n +6 | xargs rm -rf
+
+            echo "Deploy concluído com sucesso!"
+            ls -alh ${TARGET_DIR} | head -10
