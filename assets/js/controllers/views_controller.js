@@ -5,11 +5,11 @@ export default class extends Controller {
 
   async connect() {
     const endpoint = "https://blog-neylon-dev.goatcounter.com/counter";
-    const url = `${endpoint}/${encodeURIComponent(this.pathValue)}.json`;
+    const path = this.pathValue.replace(/\/$/, '');
+    const url = `${endpoint}/${path}.json`;
 
     try {
       const res = await fetch(url);
-      if (!res.ok) return;
       const { count } = await res.json();
       this.element.textContent = `* ${count} views`;
     } catch {
