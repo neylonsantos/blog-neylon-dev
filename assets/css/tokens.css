@@ -1,0 +1,361 @@
+/* ──────────────────────────────────────────────────────────
+   Design Tokens — neylon.dev terminal design system v1.0.0
+   Estrutura: tokens globais → tema "dev" (dark) → tema "human" (light)
+   ────────────────────────────────────────────────────────── */
+
+
+/* ═══════════════════════════════════════════════════════════
+   TOKENS GLOBAIS — independentes de tema
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+
+  /* ── Tipografia — escala ───────────────────────────────── */
+
+  --text-2xs:  0.625rem;   /*  10px — timestamps ultra-compactos */
+  --text-xs:   0.75rem;    /*  12px — timestamps, captions, labels */
+  --text-sm:   0.875rem;   /*  14px — sidebar items, tags, badges */
+  --text-base: 1rem;       /*  16px — corpo de texto */
+  --text-md:   1.125rem;   /*  18px — corpo destacado */
+  --text-lg:   1.25rem;    /*  20px — sub-headings */
+  --text-xl:   1.5rem;     /*  24px — page titles */
+  --text-2xl:  1.875rem;   /*  30px — hero secondary */
+  --text-3xl:  2.25rem;    /*  36px — hero primary */
+  --text-4xl:  3rem;       /*  48px — display */
+
+  /* ── Tipografia — line heights ─────────────────────────── */
+
+  --leading-none:    1;
+  --leading-tight:   1.25;
+  --leading-snug:    1.375;   /* padrão terminal */
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.625;   /* artigos longos */
+  --leading-loose:   2;
+
+  /* ── Tipografia — letter spacing ───────────────────────── */
+
+  --tracking-normal:  0em;
+  --tracking-wide:    0.025em;
+  --tracking-wider:   0.05em;
+  --tracking-widest:  0.1em;  /* tags uppercase */
+
+  /* ── Tipografia — famílias ─────────────────────────────── */
+
+  --font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code",
+               ui-monospace, monospace;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+
+  /* ── Tipografia — pesos ────────────────────────────────── */
+
+  --font-weight-regular:  400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+
+  /* ── Border radius ─────────────────────────────────────── */
+
+  --radius-none: 0px;      /* bordas afiadas, estilo CLI */
+  --radius-xs:   2px;      /* sutil — tags inline */
+  --radius-sm:   4px;      /* padrão — cards, botões, inputs */
+  --radius-md:   6px;      /* moderado — modais, painéis */
+  --radius-lg:   8px;      /* amplo — dialogs */
+  --radius-full: 9999px;   /* pill — status dots */
+
+  /* ── Espessura de borda ────────────────────────────────── */
+
+  --border-width-thin:  1px;   /* dividers e cards */
+  --border-width-thick: 2px;   /* bordas de acento */
+  --border-width-heavy: 4px;   /* left-border de destaque */
+
+  /* ── Espaçamento — escala 4px ──────────────────────────── */
+
+  --space-0:    0px;
+  --space-px:   1px;
+  --space-0-5:  2px;
+  --space-1:    4px;
+  --space-1-5:  6px;
+  --space-2:    8px;
+  --space-2-5:  10px;
+  --space-3:    12px;
+  --space-4:    16px;
+  --space-5:    20px;
+  --space-6:    24px;
+  --space-7:    28px;
+  --space-8:    32px;
+  --space-10:   40px;
+  --space-12:   48px;
+  --space-16:   64px;
+  --space-20:   80px;
+
+  /* ── Sombras ───────────────────────────────────────────── */
+
+  --shadow-none: none;
+  --shadow-xs:   0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm:   0 2px 4px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md:   0 4px 8px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-lg:   0 8px 24px rgba(0, 0, 0, 0.6), 0 4px 8px rgba(0, 0, 0, 0.4);
+
+  /* ── Foco ──────────────────────────────────────────────── */
+
+  --focus-ring-width:  2px;
+  --focus-ring-offset: 2px;
+  --focus-ring-style:  solid;
+
+  /* ── Layout ────────────────────────────────────────────── */
+
+  --layout-nav-height: 40px;
+  --prose-width:       65ch;
+
+  /* ── Z-index ───────────────────────────────────────────── */
+
+  --z-raised:   10;
+  --z-dropdown: 100;
+  --z-sticky:   200;
+  --z-modal:    400;
+  --z-tooltip:  600;
+  --z-toast:    700;
+
+  /* ── Duração de animações ──────────────────────────────── */
+
+  --duration-instant:  50ms;
+  --duration-fast:     100ms;
+  --duration-base:     150ms;
+  --duration-moderate: 200ms;
+  --duration-slow:     300ms;
+
+  /* ── Easing ────────────────────────────────────────────── */
+
+  --ease-out:      cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-snap:     cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-terminal: steps(1, end);
+
+  /* ── Transições padrão por propriedade ─────────────────── */
+
+  --transition-color:      color var(--duration-fast) var(--ease-out);
+  --transition-background: background-color var(--duration-base) var(--ease-out);
+  --transition-border:     border-color var(--duration-fast) var(--ease-out);
+  --transition-opacity:    opacity var(--duration-moderate) var(--ease-out);
+  --transition-transform:  transform var(--duration-base) var(--ease-snap);
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   TEMA: dev — GitHub Dark (padrão)
+   ═══════════════════════════════════════════════════════════ */
+
+:root,
+[data-theme="dev"] {
+
+  /* ── Superfície — 3 camadas de profundidade ────────────── */
+
+  --surface-base:     #0d1117;   /* fundo do documento */
+  --surface-raised:   #161b22;   /* nav, sidebar, painéis */
+  --surface-overlay:  #1c2128;   /* cards, containers */
+  --surface-inset:    #010409;   /* inputs, code blocks */
+  --surface-floating: #1c2128;   /* tooltips, dropdowns */
+
+  /* ── Texto — 5 níveis de ênfase ────────────────────────── */
+
+  --text-primary:   #f0f6fc;   /* headings, alta importância */
+  --text-secondary: #e6edf3;   /* corpo de texto padrão */
+  --text-tertiary:  #8b949e;   /* metadata, labels */
+  --text-muted:     #484f58;   /* placeholders, disabled */
+  --text-disabled:  #30363d;   /* completamente desabilitado */
+
+  /* ── Texto — papéis semânticos ─────────────────────────── */
+
+  --text-accent:     #3fb950;   /* links, destaques, valores */
+  --text-comment:    #3fb950;   /* comentários estilo // */
+  --text-link:       #58a6ff;   /* hyperlinks */
+  --text-link-hover: #79c0ff;
+  --text-on-accent:  #0d1117;   /* texto sobre fundo de acento */
+
+  /* ── Acento principal ──────────────────────────────────── */
+
+  --color-accent:            #3fb950;
+  --color-accent-rgb:        63, 185, 80;
+  --color-accent-hover:      #56d364;
+  --color-accent-active:     #2ea043;
+  --color-accent-subtle:     rgba(63, 185, 80, 0.1);
+  --color-accent-muted:      rgba(63, 185, 80, 0.2);
+  --color-accent-strong:     #7ee787;
+  --color-accent-foreground: #0d1117;
+
+  /* ── Bordas ────────────────────────────────────────────── */
+
+  --border-default: #30363d;
+  --border-subtle:  #21262d;
+  --border-strong:  #484f58;
+  --border-accent:  #3fb950;
+  --border-error:   #f85149;
+
+  /* ── Semânticos ────────────────────────────────────────── */
+
+  --color-success:        #3fb950;
+  --color-success-subtle: rgba(63, 185, 80, 0.1);
+  --color-success-text:   #7ee787;
+
+  --color-warning:        #d29922;
+  --color-warning-subtle: rgba(210, 153, 34, 0.1);
+  --color-warning-text:   #e3b341;
+
+  --color-error:          #f85149;
+  --color-error-subtle:   rgba(248, 81, 73, 0.1);
+  --color-error-text:     #ff7b72;
+
+  --color-info:           #58a6ff;
+  --color-info-subtle:    rgba(88, 166, 255, 0.1);
+  --color-info-text:      #79c0ff;
+
+  /* ── Status ────────────────────────────────────────────── */
+
+  --status-online:    #3fb950;
+  --status-idle:      #d29922;
+  --status-dnd:       #f85149;
+  --status-offline:   #484f58;
+  --status-streaming: #8957e5;
+
+  /* ── Syntax highlight ──────────────────────────────────── */
+
+  --syntax-keyword:   #ff7b72;
+  --syntax-string:    #a5d6ff;
+  --syntax-number:    #79c0ff;
+  --syntax-comment:   #8b949e;
+  --syntax-function:  #d2a8ff;
+  --syntax-variable:  #ffa657;
+
+  /* ── Overlays interativos ──────────────────────────────── */
+
+  --surface-hover:    rgba(63, 185, 80, 0.04);
+  --surface-active:   rgba(63, 185, 80, 0.1);
+  --surface-selected: rgba(63, 185, 80, 0.07);
+
+  /* ── Focus ─────────────────────────────────────────────── */
+
+  --focus-ring-color: #3fb950;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   TEMA: human — GitHub Light
+   ═══════════════════════════════════════════════════════════ */
+
+[data-theme="human"] {
+
+  /* ── Superfície ────────────────────────────────────────── */
+
+  --surface-base:     #ffffff;
+  --surface-raised:   #f6f8fa;
+  --surface-overlay:  #ffffff;
+  --surface-inset:    #f6f8fa;
+  --surface-floating: #ffffff;
+
+  /* ── Texto ─────────────────────────────────────────────── */
+
+  --text-primary:   #1f2328;
+  --text-secondary: #24292f;
+  --text-tertiary:  #57606a;
+  --text-muted:     #8c959f;
+  --text-disabled:  #afb8c1;
+
+  --text-accent:     #1a7f37;
+  --text-comment:    #1a7f37;
+  --text-link:       #0969da;
+  --text-link-hover: #0550ae;
+  --text-on-accent:  #ffffff;
+
+  /* ── Acento ────────────────────────────────────────────── */
+
+  --color-accent:            #1a7f37;
+  --color-accent-rgb:        26, 127, 55;
+  --color-accent-hover:      #157a32;
+  --color-accent-active:     #0d5a24;
+  --color-accent-subtle:     rgba(26, 127, 55, 0.08);
+  --color-accent-muted:      rgba(26, 127, 55, 0.15);
+  --color-accent-strong:     #116329;
+  --color-accent-foreground: #ffffff;
+
+  /* ── Bordas ────────────────────────────────────────────── */
+
+  --border-default: #d0d7de;
+  --border-subtle:  #eaeef2;
+  --border-strong:  #afb8c1;
+  --border-accent:  #1a7f37;
+  --border-error:   #cf222e;
+
+  /* ── Semânticos ────────────────────────────────────────── */
+
+  --color-success:        #1a7f37;
+  --color-success-subtle: rgba(26, 127, 55, 0.08);
+  --color-success-text:   #116329;
+
+  --color-warning:        #9a6700;
+  --color-warning-subtle: rgba(154, 103, 0, 0.08);
+  --color-warning-text:   #7d4e00;
+
+  --color-error:          #cf222e;
+  --color-error-subtle:   rgba(207, 34, 46, 0.08);
+  --color-error-text:     #a40e26;
+
+  --color-info:           #0969da;
+  --color-info-subtle:    rgba(9, 105, 218, 0.08);
+  --color-info-text:      #0550ae;
+
+  /* ── Status ────────────────────────────────────────────── */
+
+  --status-online:    #1a7f37;
+  --status-idle:      #9a6700;
+  --status-dnd:       #cf222e;
+  --status-offline:   #8c959f;
+  --status-streaming: #6639ba;
+
+  /* ── Syntax ────────────────────────────────────────────── */
+
+  --syntax-keyword:  #cf222e;
+  --syntax-string:   #0a3069;
+  --syntax-number:   #0550ae;
+  --syntax-comment:  #6e7781;
+  --syntax-function: #6639ba;
+  --syntax-variable: #953800;
+
+  /* ── Overlays ──────────────────────────────────────────── */
+
+  --surface-hover:    rgba(26, 127, 55, 0.04);
+  --surface-active:   rgba(26, 127, 55, 0.08);
+  --surface-selected: rgba(26, 127, 55, 0.06);
+
+  /* ── Focus ─────────────────────────────────────────────── */
+
+  --focus-ring-color: #0969da;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   ANIMAÇÕES
+   ═══════════════════════════════════════════════════════════ */
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-dot {
+  0%   { box-shadow: 0 0 0 0   rgba(var(--color-accent-rgb), 0.6); }
+  70%  { box-shadow: 0 0 0 6px rgba(var(--color-accent-rgb), 0); }
+  100% { box-shadow: 0 0 0 0   rgba(var(--color-accent-rgb), 0); }
+}
+
+/* ── Acessibilidade — respeita preferência do usuário ────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:  0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

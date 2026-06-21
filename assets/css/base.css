@@ -1,61 +1,60 @@
+/* ──────────────────────────────────────────────────────────
+   Base — reset, body, utilitários globais
+   Depende de: tokens.css
+   ────────────────────────────────────────────────────────── */
+
+
+/* ═══════════════════════════════════════════════════════════
+   RESET
+   ═══════════════════════════════════════════════════════════ */
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-:root,
-[data-theme="dev"] {
-  --bg:            #000000;
-  --bg-card:       #111827;
-  --bg-subtle:     #030712;
-  --text:          #d1d5db;
-  --text-muted:    #6b7280;
-  --text-faint:    #374151;
-  --accent:        #4ade80;
-  --accent-blue:   #60a5fa;
-  --accent-yellow: #facc15;
-  --accent-purple: #c084fc;
-  --border:        #1f2937;
-  --font:          'JetBrains Mono', 'Fira Code', monospace;
-}
 
-[data-theme="human"] {
-  --bg:            #faf9f6;
-  --bg-card:       #ede8e0;
-  --bg-subtle:     #e5dfd6;
-  --text:          #1f2937;
-  --text-muted:    #4b5563;
-  --text-faint:    #6b7280;
-  --accent:        #b45309;
-  --accent-blue:   #1d4ed8;
-  --accent-yellow: #a16207;
-  --accent-purple: #6d28d9;
-  --border:        #c5bdb2;
-}
+/* ═══════════════════════════════════════════════════════════
+   BODY
+   ═══════════════════════════════════════════════════════════ */
 
 body {
-  background-color: var(--bg);
-  color: var(--text);
-  font-family: var(--font);
-  line-height: 1.6;
+  background-color: var(--surface-base);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  line-height: var(--leading-snug);
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: var(--transition-background), var(--transition-color);
 }
 
-.hidden {
-  display: none !important;
+
+/* ═══════════════════════════════════════════════════════════
+   FOCO — acessibilidade global
+   ═══════════════════════════════════════════════════════════ */
+
+:focus-visible {
+  outline: var(--focus-ring-width) var(--focus-ring-style) var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
 }
 
-/* Shared prompt colors */
-.prompt-user { color: var(--accent); }
+
+/* ═══════════════════════════════════════════════════════════
+   UTILITÁRIOS COMPARTILHADOS
+   ═══════════════════════════════════════════════════════════ */
+
+.hidden { display: none !important; }
+
+/* Cores de prompt (usadas em múltiplas páginas) */
+.prompt-user { color: var(--color-accent); }
 .prompt-at   { color: var(--text-muted); }
-.prompt-host { color: var(--accent-blue); }
-.prompt-cmd  { color: var(--text); margin-left: 0.5rem; }
+.prompt-host { color: var(--text-link); }
 
-/* Shared category colors */
-.color-blue   { color: var(--accent-blue); }
-.color-yellow { color: var(--accent-yellow); }
-.color-purple { color: var(--accent-purple); }
-.color-green  { color: var(--accent); }
+/* Cores de categoria por post (legado compatível) */
+.color-green  { color: var(--color-accent); }
+.color-blue   { color: var(--text-link); }
+.color-yellow { color: var(--color-warning); }
+.color-purple { color: var(--color-info-text); }
+.color-red    { color: var(--color-error); }
