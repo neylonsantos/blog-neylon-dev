@@ -1,6 +1,11 @@
 <nav class="topbar" data-controller="theme">
   <ul class="topbar-links">
     <li>
+      <a href="http://neylon.dev" class="topbar-link" rel="noopener">
+        ~/
+      </a>
+    </li>
+    <li>
       <a href="/"
          class="topbar-link{% if page.active_tab == 'posts' %} topbar-link--active{% endif %}"
          {% if page.active_tab == 'posts' %}aria-current="page"{% endif %}>

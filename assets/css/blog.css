@@ -234,28 +234,31 @@
 .post-item:first-child { border-top: none; }
 
 .post-link {
-  display: flex;
-  gap: var(--space-3);
+  display: block;
   padding: var(--space-4) var(--space-1);
   text-decoration: none;
   font-family: var(--font-mono);
   border-radius: var(--radius-xs);
-  transition: var(--transition-background), padding-left var(--duration-base) var(--ease-out);
+  transition: var(--transition-background);
 }
 
 .post-link:hover {
   background: var(--surface-hover);
-  padding-left: var(--space-3);
+}
+
+.post-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
 }
 
 .post-indicator {
   color: var(--color-accent);
   font-size: var(--text-sm);
   flex-shrink: 0;
-  margin-top: 2px;
 }
 
-.post-content-wrap { flex: 1; }
+.post-content-wrap { width: 100%; }
 
 .post-list-title {
   font-size: var(--text-base);

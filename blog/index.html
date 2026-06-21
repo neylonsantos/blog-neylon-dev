@@ -12,11 +12,13 @@ permalink: /
   {% for post in site.posts %}
   <article class="post-item">
     <a href="{{ post.url }}" class="post-link">
-      <span class="post-indicator" aria-hidden="true">&gt;</span>
       <div class="post-content-wrap">
-        <h2 class="post-list-title color-{{ post.color | default: 'green' }}">
-          {% if post.icon %}<span aria-hidden="true">{{ post.icon }}</span> {% endif %}{{ post.title }}
-        </h2>
+        <div class="post-title-row">
+          <span class="post-indicator" aria-hidden="true">&gt;</span>
+          <h2 class="post-list-title color-{{ post.color | default: 'green' }}">
+            {% if post.icon %}<span aria-hidden="true">{{ post.icon }}</span> {% endif %}{{ post.title }}
+          </h2>
+        </div>
         <div class="post-meta">
           <span class="comment">// {{ post.date | ptbr_date_complete }}</span>
           <span class="post-views"
